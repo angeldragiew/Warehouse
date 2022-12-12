@@ -1,0 +1,69 @@
+﻿@using Warehouse.Core.ViewModels
+@model ProductDetailsViewModel
+
+<div class="content-container">
+    <div class="card card-solid productContent">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 col-sm-7 productImage">
+                    <div class="col-14">
+                        <img src="~/uploads/@Model.Image" class="product-image" alt="Product Image">
+                    </div>
+                </div>
+                <div class="col-10 col-sm-5">
+                    <h3 class="my-3">@Model.Name</h3>
+                    <hr>
+                    <div class="col-sm-14">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-warning"><i class="fas fa-info"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Description</span>
+                                <span class="info-box-number">@Model.Description</span>
+                            </div>
+                        </div>
+                        <div class="info-box">
+                            <span class="info-box-icon bg-warning"><i class="fas fa-industry"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Category</span>
+                                <span class="info-box-number">@(Model.Category)</span>
+                            </div>
+                        </div>
+                        <div class="info-box">
+                            <span class="info-box-icon bg-warning"><i class="far fa-money-bill-alt"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Purchase Price</span>
+                                <span class="info-box-number">@(Math.Round(Model.PurchasePrice, 2)) lv.</span>
+                            </div>
+                        </div>
+                        <div class="info-box">
+                            <span class="info-box-icon bg-warning"><i class="far fa-money-bill-alt"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Selling Price</span>
+                                <span class="info-box-number">@(Math.Round(Model.SellingPrice, 2)) lv.</span>
+                            </div>
+                        </div>
+                        <div class="info-box">
+                            <span class="info-box-icon bg-warning"><i class="fas fa-boxes"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Quantity</span>
+                                <span class="info-box-number">@(Model.Quantity)</span>
+                            </div>
+                        </div>
+                        <div class="adminButtons">
+                            <a href="/admin/Product/Edit/@Model.Id" class="tn btn-outline-danger btn-block btn-sm">
+                                Edit
+                            </a>
+                            <a href="/admin/Product/Delete/@Model.Id" class="tn btn-outline-danger btn-block btn-sm">
+                                Delete
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Head{
+    <link rel="stylesheet" href="~/css/productViews.css" type="text/css" runat="server" />
+	}

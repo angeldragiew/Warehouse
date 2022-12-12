@@ -60,7 +60,22 @@ namespace Warehouse.Core.Services
             await productRepo.SaveChangesAsync();
         }
 
-
+        public async Task<ProductDetailsViewModel> GetProductDetails(string id)
+        {
+            return await productRepo
+                 .All()
+                 .Select(p => new ProductDetailsViewModel()
+                 {
+                     Id = p.Id,
+                     Name = p.Name,
+                     Image = p.ImageUrl,
+                     Category = p.Category,
+                     PurchasePrice = p.PurchasePrice,
+                     SellingPrice = p.SellingPrice,
+                     Description = p.Description,
+                     Quantity = p.Quantity
+                 }).FirstAsync(p => p.Id == id);
+        }
 
         private string UploadFile(IFormFile file)
         {

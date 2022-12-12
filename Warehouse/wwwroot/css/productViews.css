@@ -43,10 +43,10 @@
 }
 
 .product-image {
-    width: 100%;
+    width: 200%;
     vertical-align: middle !important;
-    height: 410px !important;
-    object-fit: cover;
+    /*height: 910px !important;*/
+    object-fit: fill;
 }
 
 .add-comment-section {
