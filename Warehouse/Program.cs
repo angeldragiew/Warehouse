@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Warehouse.Core.Services;
+using Warehouse.Core.Services.Contracts;
 using Warehouse.Infrastructure.Data;
 using Warehouse.Infrastructure.Data.Models;
+using Warehouse.Infrastructure.Data.Repo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,9 +19,11 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => {
     options.Password.RequireNonAlphanumeric = true;
     options.Password.RequireUppercase = true;
     options.Password.RequireLowercase = true;
-})
-   .AddEntityFrameworkStores<ApplicationDbContext>();
+}).AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 

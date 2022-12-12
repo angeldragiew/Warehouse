@@ -21,9 +21,9 @@ namespace Warehouse.Infrastructure.Data.Models
 
 
         [StringLength(2000, ErrorMessage = "Product description must be up to 2000 symbols")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
 
         public decimal SellingPrice { get; set; }
         public decimal PurchasePrice { get; set; }

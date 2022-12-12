@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Warehouse.Infrastructure.Data.Repo
 {
-    internal interface IRepository<T>
+    public interface IRepository<T>
         where T : class
     {
         IQueryable<T> All();

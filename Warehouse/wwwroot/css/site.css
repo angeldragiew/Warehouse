@@ -16,3 +16,14 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.error {
+    color: #C81313;
+}
+
+.content-container > *{
+      margin:0 auto;
+}
+.content-container{
+    padding:50px;
+}
