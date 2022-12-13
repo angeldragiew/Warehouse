@@ -33,6 +33,19 @@ namespace Warehouse.Controllers
             return View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                await productService.Delete(id);
+            }catch(Exception ex)
+            {
+                //TODO:
+            }
+            return RedirectToAction("All", "Product");
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateProductViewModel model)
         {

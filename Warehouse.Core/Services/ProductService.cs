@@ -33,7 +33,12 @@ namespace Warehouse.Core.Services
                 {
                     Id = p.Id,
                     Name = p.Name,
-                    Image = p.ImageUrl
+                    Image = p.ImageUrl,
+                    Category = p.Category,
+                    PurchasePrice = p.PurchasePrice,
+                    SellingPrice = p.SellingPrice,
+                    Description = p.Description,
+                    Quantity = p.Quantity
                 }).ToListAsync();
         }
 
@@ -60,21 +65,19 @@ namespace Warehouse.Core.Services
             await productRepo.SaveChangesAsync();
         }
 
-        public async Task<ProductDetailsViewModel> GetProductDetails(string id)
+        public async Task Delete(string id)
         {
-            return await productRepo
-                 .All()
-                 .Select(p => new ProductDetailsViewModel()
-                 {
-                     Id = p.Id,
-                     Name = p.Name,
-                     Image = p.ImageUrl,
-                     Category = p.Category,
-                     PurchasePrice = p.PurchasePrice,
-                     SellingPrice = p.SellingPrice,
-                     Description = p.Description,
-                     Quantity = p.Quantity
-                 }).FirstAsync(p => p.Id == id);
+            var productToDelete = await productRepo
+                .All()
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (productToDelete == null)
+            {
+                throw new ArgumentNullException("Unknown product!");
+            }
+
+            productRepo.Delete(productToDelete);
+            await productRepo.SaveChangesAsync();
         }
 
         private string UploadFile(IFormFile file)
