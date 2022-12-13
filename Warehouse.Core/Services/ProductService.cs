@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Scaffolding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,7 +77,67 @@ namespace Warehouse.Core.Services
                 throw new ArgumentNullException("Unknown product!");
             }
 
+            if (productToDelete.ImageUrl != null)
+            {
+                DeleteFile(productToDelete.ImageUrl);
+            }
+
             productRepo.Delete(productToDelete);
+            await productRepo.SaveChangesAsync();
+        }
+
+        public async Task<EditProductViewModel> GetByIdAsync(string id)
+        {
+            var product = await productRepo
+               .All()
+               .Select(p => new EditProductViewModel()
+               {
+                   Id = p.Id,
+                   Name = p.Name,
+                   Category = p.Category,
+                   PurchasePrice = p.PurchasePrice,
+                   SellingPrice = p.SellingPrice,
+                   Description = p.Description,
+                   Quantity = p.Quantity
+               }).FirstOrDefaultAsync(p => p.Id == id);
+
+            if (product == null)
+            {
+                throw new ArgumentNullException("Unknown product!");
+            }
+
+            return product;
+        }
+
+        public async Task EditAsync(EditProductViewModel model)
+        {
+            var productToUpdate = await productRepo
+                .All()
+                .FirstOrDefaultAsync(p => p.Id == model.Id);
+
+            if (productToUpdate == null)
+            {
+                throw new ArgumentNullException("Unknown product!");
+            }
+
+            productToUpdate.Name = model.Name;
+            productToUpdate.Description = model.Description;
+            productToUpdate.SellingPrice = model.SellingPrice;
+            productToUpdate.PurchasePrice = model.PurchasePrice;
+            productToUpdate.Quantity = model.Quantity;
+            productToUpdate.Category = model.Category;
+
+            if (model.Image != null)
+            {
+                if (productToUpdate.ImageUrl != null)
+                {
+                    DeleteFile(productToUpdate.ImageUrl);
+                }
+
+                string imageFileName = UploadFile(model.Image);
+                productToUpdate.ImageUrl = imageFileName;
+            }
+
             await productRepo.SaveChangesAsync();
         }
 
@@ -95,6 +156,17 @@ namespace Warehouse.Core.Services
             }
 
             return fileName;
+        }
+
+        private void DeleteFile(string fileName)
+        {
+            var folderPath = Path.Combine(hostEnvironment.WebRootPath, "uploads");
+            var filePath = Path.Combine(folderPath, fileName);
+
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
         }
     }
 }

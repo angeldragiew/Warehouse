@@ -6,7 +6,7 @@
     text-align:center;
 }
 .description-field {
-    width: 10% !important;
+    width: 30% !important;
     background-color: red;
     line-height: 10px;
 }
@@ -19,4 +19,9 @@
 
 .actions a{
     display:block;
+}
+
+.create-button-div{
+    width:20%;
+    margin-bottom:20px;
 }

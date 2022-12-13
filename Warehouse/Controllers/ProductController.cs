@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Warehouse.Core.Constants;
 using Warehouse.Core.Services;
 using Warehouse.Core.Services.Contracts;
 using Warehouse.Core.ViewModels;
@@ -20,12 +21,6 @@ namespace Warehouse.Controllers
             this.userManager = userManager;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> All()
-        {
-            var products = await productService.AllAsync();
-            return View(products);
-        }
 
         [HttpGet]
         public IActionResult Create()
@@ -34,16 +29,53 @@ namespace Warehouse.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            try
+            {
+                var product = await productService.GetByIdAsync(id);
+                return View(product);
+            }
+            catch (ArgumentNullException ex)
+            {
+                TempData[MessageConstant.ErrorMessage] = ex.Message;
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditProductViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                await productService.EditAsync(model);
+                TempData[MessageConstant.SuccessMessage] = "Product successfully updated!";
+            }
+            catch (ArgumentNullException ex)
+            {
+                TempData[MessageConstant.ErrorMessage] = ex.Message;
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
             try
             {
                 await productService.Delete(id);
-            }catch(Exception ex)
-            {
-                //TODO:
+                TempData[MessageConstant.SuccessMessage] = "Product deleted successfully!";
             }
-            return RedirectToAction("All", "Product");
+            catch (Exception ex)
+            {
+                TempData[MessageConstant.ErrorMessage] = ex.Message;
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -58,13 +90,14 @@ namespace Warehouse.Controllers
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 await productService.CreateAsync(model, userId);
+                TempData[MessageConstant.SuccessMessage] = "Product created successfully!";
             }
             catch (Exception ex)
             {
-
+                TempData[MessageConstant.ErrorMessage] = ex.Message;
             }
 
-            return RedirectToAction("All", "Product");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

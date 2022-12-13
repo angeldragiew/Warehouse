@@ -13,5 +13,9 @@ namespace Warehouse.Core.Services.Contracts
         Task CreateAsync(CreateProductViewModel model, string userId);
 
         Task Delete(string id);
+
+        Task<EditProductViewModel> GetByIdAsync(string id);
+
+        Task EditAsync(EditProductViewModel model);
     }
 }
