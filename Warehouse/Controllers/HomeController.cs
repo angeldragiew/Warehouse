@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Warehouse.Core.Constants;
+using Warehouse.Core.Services;
+using Warehouse.Core.Services.Contracts;
 using Warehouse.Models;
 
 namespace Warehouse.Controllers
@@ -7,16 +10,21 @@ namespace Warehouse.Controllers
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IProductService productService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,
+            IProductService productService)
         {
             _logger = logger;
+            this.productService = productService;
         }
 
-        
-        public IActionResult Index()
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var products = await productService.AllAsync();
+            return View(products);
         }
 
         public IActionResult Privacy()
