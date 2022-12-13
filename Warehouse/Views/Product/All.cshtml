@@ -2,33 +2,75 @@
 
 @model IEnumerable<ProductViewModel>
 <div class="content-container">
-    <div class="card card-success">
-        <div class="card-body">
-            @if (Model.Count() > 0)
-            {
-                <div class="row">
-                    @foreach (var product in Model)
-                    {
-                        <div class="col-md-12 col-lg-6 col-xl-4">
-                            <div class="card mb-2 bg-gradient-dark">
-                                <a href="/Product/Details/@product.Id">
-                                    <img class="card-img-top product-all-image" src="~/uploads/@product.Image">
-                                    <h3 class="product-all-name">@product.Name</h3>
-                                </a>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Responsive Hover Table</h3>
+                    <div class="card-tools">
+                        <div class="input-group input-group-sm" style="width: 150px;">
+                            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default">
+                                    <i class="fas fa-search"></i>
+                                </button>
                             </div>
                         </div>
-                    }
+                    </div>
                 </div>
-            }
-            else
-            {
-                <h3>There are not available products from this category!</h3>
-            }
+
+                <div class="card-body table-responsive p-0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="id-field">ID</th>
+                                <th>Name</th>
+                                <th class="description-field">Description</th>
+                                <th>Selling Price</th>
+                                <th>Purchase Price</th>
+                                <th>Image</th>
+                                <th>Quantity</th>
+                                <th>Category</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in Model)
+                            {
+                                <tr>
+                                    <td>@product.Id</td>
+                                    <td>@product.Name</td>
+                                    <td>@product.Description</td>
+                                    <td>@product.SellingPrice</td>
+                                    <td>@product.PurchasePrice</td>
+                                    @if(product.Image!=null){
+                                        <td><img class="product-img" src="~/uploads/@product.Image"></td>
+                                    }else{
+                                        <td>No Image</td>
+                                    }
+                                   
+                                    <td>@product.Quantity</td>
+                                    <td>@product.Category</td>
+                                    <td class="actions">
+                                        <a href="/Product/Delete/@product.Id" class="btn btn-app">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </a>
+                                        <a href="/Product/Delete/@product.Id" class="btn btn-app bg-danger">
+                                            <i class="fas fa-inbox"></i> Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
         </div>
     </div>
 </div>
 
-
 @section Head{
-    <link rel="stylesheet" href="~/css/productViews.css" type="text/css" runat="server" />
+    <link rel="stylesheet" href="~/css/productViews.css" type="text/css" asp-append-version="true" />
 	}

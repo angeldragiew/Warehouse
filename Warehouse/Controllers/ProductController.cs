@@ -28,13 +28,6 @@ namespace Warehouse.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(string id)
-        {
-            var product = await productService.GetProductDetails(id);
-            return View(product);
-        }
-
-        [HttpGet]
         public IActionResult Create()
         {
             return View();
