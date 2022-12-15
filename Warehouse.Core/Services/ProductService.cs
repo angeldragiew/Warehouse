@@ -26,9 +26,9 @@ namespace Warehouse.Core.Services
             this.productRepo = productRepo;
         }
 
-        public async Task<IEnumerable<ProductViewModel>> AllAsync()
+        public async Task<IEnumerable<ProductViewModel>> AllAsync(string category, string searchString)
         {
-            return await productRepo
+            var products = await productRepo
                 .All()
                 .Select(p => new ProductViewModel()
                 {
@@ -41,6 +41,19 @@ namespace Warehouse.Core.Services
                     Description = p.Description,
                     Quantity = p.Quantity
                 }).ToListAsync();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                products = products
+                    .Where(p => p.Name.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+
+            if (!String.IsNullOrEmpty(category))
+            {
+                products = products
+                    .Where(p => p.Category.ToString().ToLower() == category.ToLower()).ToList();
+            }
+            return products;
         }
 
         public async Task CreateAsync(CreateProductViewModel model, string userId)

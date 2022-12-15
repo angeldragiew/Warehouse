@@ -27,3 +27,12 @@ body {
 .content-container{
     padding:50px;
 }
+
+.select-category-search{
+    margin-right: 20px;
+    float:left;
+}
+
+.select-category-search input{
+    height:10px !important;
+}

@@ -1,4 +1,5 @@
 ﻿@using Warehouse.Core.ViewModels
+@using Warehouse.Infrastructure.Enums
 
 @model IEnumerable<ProductViewModel>
 <div class="content-container">
@@ -11,14 +12,28 @@
                 <div class="card-header">
                     <h3 class="card-title">Responsive Hover Table</h3>
                     <div class="card-tools">
-                        <div class="input-group input-group-sm" style="width: 150px;">
-                            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default">
-                                    <i class="fas fa-search"></i>
-                                </button>
+                        <form asp-controller="Home" asp-action="Index" method="get">
+                            <div class="input-group-sm select-category-search" style="width: 150px;">
+@*                                <select class="form-control" name="category" asp-items="Html.GetEnumSelectList<ProductCategory>()">
+                                    <option value="">Select Category</option>
+                                </select>*@
+                                <select class="form-control" name="category">
+                                    <option value="">Select Category</option>
+                                    @foreach (ProductCategory cat in (ProductCategory[])Enum.GetValues(typeof(ProductCategory)))
+                                    {
+                                        <option value="@cat" selected>@cat</option>
+                                    }
+                                </select>
                             </div>
-                        </div>
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input class="form-control" placeholder="Search" type="text" name="searchString" />
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-default">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
 

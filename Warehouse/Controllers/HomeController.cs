@@ -21,9 +21,10 @@ namespace Warehouse.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string category, string searchString)
         {
-            var products = await productService.AllAsync();
+
+            var products = await productService.AllAsync(category, searchString);
             return View(products);
         }
 
