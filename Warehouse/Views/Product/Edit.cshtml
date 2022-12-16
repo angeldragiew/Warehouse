@@ -17,11 +17,11 @@
                         <label asp-for="Name"></label>
                         @if (Model != null)
                         {
-                            <input asp-for="Name" value="@Model.Name" class="form-control" id="exampleInputEmail1" placeholder="Enter product name..">
+                            <input asp-for="Name" value="@Model.Name" class="form-control" placeholder="Enter product name..">
                         }
                         else
                         {
-                            <input asp-for="Name" class="form-control" id="exampleInputEmail1" placeholder="Enter product name..">
+                            <input asp-for="Name" class="form-control" placeholder="Enter product name..">
                         }
                         <span class="text-danger" asp-validation-for="Name"></span>
                     </div>
@@ -29,11 +29,11 @@
                         <label asp-for="Description"></label>
                         @if (Model != null)
                         {
-                            <textarea asp-for="Description" class="form-control" id="exampleInputEmail1" placeholder="Enter product description..">@Model.Description</textarea>
+                            <textarea asp-for="Description" class="form-control" placeholder="Enter product description..">@Model.Description</textarea>
                         }
                         else
                         {
-                            <textarea asp-for="Description" class="form-control" id="exampleInputEmail1" placeholder="Enter product description.."></textarea>
+                            <textarea asp-for="Description" class="form-control" placeholder="Enter product description.."></textarea>
                         }
                         <span class="text-danger" asp-validation-for="Description"></span>
                     </div>
@@ -41,7 +41,7 @@
                         <label asp-for="Image"></label>
                         <div class="input-group">
                             <div class="custom-file">
-                                <input asp-for="Image" type="file" class="custom-file-input" id="exampleInputFile">
+                                <input asp-for="Image" type="file" class="custom-file-input">
                                 <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                             </div>
                             <div class="input-group-append">
@@ -54,11 +54,11 @@
                         <label asp-for="SellingPrice"></label>
                         @if (Model != null)
                         {
-                            <input asp-for="SellingPrice" value="@Model.SellingPrice" class="form-control" id="exampleInputEmail1" placeholder="Enter selling price..">
+                            <input asp-for="SellingPrice" value="@(Math.Round(Model.SellingPrice,2))" class="form-control prices" placeholder="Enter selling price..">
                         }
                         else
                         {
-                            <input asp-for="SellingPrice" class="form-control" id="exampleInputEmail1" placeholder="Enter selling price..">
+                            <input asp-for="SellingPrice" type="text" class="form-control prices" placeholder="Enter selling price..">
                         }
                         <span class="text-danger" asp-validation-for="SellingPrice"></span>
                     </div>
@@ -66,11 +66,11 @@
                         <label asp-for="PurchasePrice"></label>
                         @if (Model != null)
                         {
-                            <input asp-for="PurchasePrice" value="@Model.PurchasePrice" class="form-control" id="exampleInputEmail1" placeholder="Enter purchase price..">
+                            <input asp-for="PurchasePrice" type="text" value="@(Math.Round(Model.PurchasePrice,2))" class="form-control prices" placeholder="Enter purchase price..">
                         }
                         else
                         {
-                            <input asp-for="PurchasePrice" class="form-control" id="exampleInputEmail1" placeholder="Enter purchase price..">
+                            <input asp-for="PurchasePrice" type="text" class="form-control prices" placeholder="Enter purchase price..">
                         }
                         <span class="text-danger" asp-validation-for="PurchasePrice"></span>
                     </div>
@@ -78,11 +78,11 @@
                         <label asp-for="Quantity"></label>
                         @if (Model != null)
                         {
-                            <input asp-for="Quantity" value="@Model.Quantity" class="form-control" id="exampleInputEmail1" placeholder="Enter quantity..">
+                            <input asp-for="Quantity" value="@Model.Quantity" class="form-control" placeholder="Enter quantity..">
                         }
                         else
                         {
-                            <input asp-for="Quantity" class="form-control" id="exampleInputEmail1" placeholder="Enter quantity..">
+                            <input asp-for="Quantity" class="form-control" placeholder="Enter quantity..">
                         }
 
                         <span class="text-danger" asp-validation-for="Quantity"></span>
@@ -123,5 +123,6 @@
             bsCustomFileInput.init();
         });
     </script>
+    <script src="~/js/replaceCommaWithDot.js"></script>
 }
 
