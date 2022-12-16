@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Warehouse.Core.Constants;
 using Warehouse.Core.Services;
 using Warehouse.Core.Services.Contracts;
+using Warehouse.Infrastructure.Enums;
 using Warehouse.Models;
 
 namespace Warehouse.Controllers
@@ -21,11 +22,11 @@ namespace Warehouse.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Index(string category, string searchString)
+        public async Task<IActionResult> Index(string productId, string category, string searchString)
         {
 
-            var products = await productService.AllAsync(category, searchString);
-            return View(products);
+            var productsViewModel = await productService.AllAsync(productId, category, searchString);
+            return View(productsViewModel);
         }
 
         public IActionResult Privacy()

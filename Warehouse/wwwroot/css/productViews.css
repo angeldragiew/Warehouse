@@ -25,3 +25,18 @@
     width:20%;
     margin-bottom:20px;
 }
+
+.select-category-search {
+    margin-right: 20px;
+    float: left;
+}
+
+.productId-search {
+    margin-right: 150px;    
+    float: left;
+}
+
+.productId-search input{
+    width:270px;
+    text-align:center;
+}

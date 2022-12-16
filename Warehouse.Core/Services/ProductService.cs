@@ -26,7 +26,7 @@ namespace Warehouse.Core.Services
             this.productRepo = productRepo;
         }
 
-        public async Task<IEnumerable<ProductViewModel>> AllAsync(string category, string searchString)
+        public async Task<ProductsSearchViewModel> AllAsync(string productId, string category, string searchString)
         {
             var products = await productRepo
                 .All()
@@ -42,18 +42,34 @@ namespace Warehouse.Core.Services
                     Quantity = p.Quantity
                 }).ToListAsync();
 
-            if (!String.IsNullOrEmpty(searchString))
+            if (!String.IsNullOrEmpty(productId))
             {
-                products = products
-                    .Where(p => p.Name.ToLower().Contains(searchString.ToLower())).ToList();
+                products = products.Where(p => p.Id == productId).ToList();
+            }
+            else
+            {
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    products = products
+                        .Where(p => p.Name.ToLower().Contains(searchString.ToLower())).ToList();
+                }
+
+                if (!String.IsNullOrEmpty(category) && category != "All")
+                {
+                    products = products
+                        .Where(p => p.Category.ToString().ToLower() == category.ToLower()).ToList();
+                }
             }
 
-            if (!String.IsNullOrEmpty(category))
+            ProductsSearchViewModel productsSearchViewModel = new ProductsSearchViewModel()
             {
-                products = products
-                    .Where(p => p.Category.ToString().ToLower() == category.ToLower()).ToList();
-            }
-            return products;
+                SearchString = searchString,
+                Products = products,
+                ProductCategory = category,
+                ProductId = productId,
+            };
+
+            return productsSearchViewModel;
         }
 
         public async Task CreateAsync(CreateProductViewModel model, string userId)

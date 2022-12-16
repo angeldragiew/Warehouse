@@ -9,7 +9,7 @@ using Warehouse.Infrastructure.Data.Models;
 
 namespace Warehouse.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
         private readonly IProductService productService;
         private readonly UserManager<ApplicationUser> userManager;

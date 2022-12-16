@@ -1,7 +1,7 @@
 ﻿@using Warehouse.Core.ViewModels
 @using Warehouse.Infrastructure.Enums
 
-@model IEnumerable<ProductViewModel>
+@model ProductsSearchViewModel
 <div class="content-container">
     <div class="create-button-div">
         <a href="/Product/Create" type="button" class="btn btn-block btn-info btn-lg">Create Product</a>
@@ -13,20 +13,41 @@
                     <h3 class="card-title">Responsive Hover Table</h3>
                     <div class="card-tools">
                         <form asp-controller="Home" asp-action="Index" method="get">
+                            <div class="input-group-sm productId-search" style="width: 150px;">
+                                @if (Model.ProductId != null)
+                                {
+                                    <input value="@Model.ProductId" class="form-control" placeholder="Search By Product Id" type="text" name="productId" />
+                                }
+                                else
+                                {
+                                    <input class="form-control" placeholder="Search By Product Id" type="text" name="productId" />
+                                }
+                            </div>
                             <div class="input-group-sm select-category-search" style="width: 150px;">
-@*                                <select class="form-control" name="category" asp-items="Html.GetEnumSelectList<ProductCategory>()">
-                                    <option value="">Select Category</option>
-                                </select>*@
                                 <select class="form-control" name="category">
-                                    <option value="">Select Category</option>
+                                    <option value="All">All Categories</option>
                                     @foreach (ProductCategory cat in (ProductCategory[])Enum.GetValues(typeof(ProductCategory)))
                                     {
-                                        <option value="@cat" selected>@cat</option>
+                                        @if (cat.ToString() == Model.ProductCategory)
+                                        {
+                                            <option selected="selected" value="@cat">@cat</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@cat">@cat</option>
+                                        }
                                     }
                                 </select>
                             </div>
                             <div class="input-group input-group-sm" style="width: 150px;">
-                                <input class="form-control" placeholder="Search" type="text" name="searchString" />
+                                @if (Model.SearchString != null)
+                                {
+                                    <input value="@Model.SearchString" class="form-control" placeholder="Search" type="text" name="searchString" />
+                                }
+                                else
+                                {
+                                    <input class="form-control" placeholder="Search" type="text" name="searchString" />
+                                }
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-default">
                                         <i class="fas fa-search"></i>
@@ -53,34 +74,43 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var product in Model)
+                            @if (Model.Products.Any())
                             {
-                                <tr>
-                                    <td>@product.Id</td>
-                                    <td>@product.Name</td>
-                                    <td>@product.Description</td>
-                                    <td>@product.SellingPrice</td>
-                                    <td>@product.PurchasePrice</td>
-                                    @if (product.Image != null)
-                                    {
-                                        <td><img class="product-img" src="~/uploads/@product.Image"></td>
-                                    }
-                                    else
-                                    {
-                                        <td>No Image</td>
-                                    }
+                                @foreach (var product in Model.Products)
+                                {
+                                    <tr>
+                                        <td>@product.Id</td>
+                                        <td>@product.Name</td>
+                                        <td>@product.Description</td>
+                                        <td>@product.SellingPrice</td>
+                                        <td>@product.PurchasePrice</td>
+                                        @if (product.Image != null)
+                                        {
+                                            <td><img class="product-img" src="~/uploads/@product.Image"></td>
+                                        }
+                                        else
+                                        {
+                                            <td>No Image</td>
+                                        }
 
-                                    <td>@product.Quantity</td>
-                                    <td>@product.Category</td>
-                                    <td class="actions">
-                                        <a href="/Product/Edit/@product.Id" class="btn btn-app">
-                                            <i class="fas fa-edit"></i> Edit
-                                        </a>
-                                        <a href="/Product/Delete/@product.Id" class="btn btn-app bg-danger">
-                                            <i class="fas fa-inbox"></i> Delete
-                                        </a>
-                                    </td>
-                                </tr>
+                                        <td>@product.Quantity</td>
+                                        <td>@product.Category</td>
+                                        <td class="actions">
+                                            <a href="/Product/Edit/@product.Id" class="btn btn-app">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </a>
+                                            <a href="/Product/Delete/@product.Id" class="btn btn-app bg-danger">
+                                                <i class="fas fa-inbox"></i> Delete
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                 <tr>
+                                     <td style="text-align: center;" colspan="9">No products found!</td>
+                                 </tr>
                             }
                         </tbody>
                     </table>
