@@ -1,3 +1,4 @@
+using BestFoodWebApp.ModelBinders;
 using Microsoft.EntityFrameworkCore;
 using Warehouse.Core.Services;
 using Warehouse.Core.Services.Contracts;
@@ -20,7 +21,12 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => {
     options.Password.RequireUppercase = true;
     options.Password.RequireLowercase = true;
 }).AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddMvcOptions(options =>
+    {
+        options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+        options.ModelBinderProviders.Insert(1, new DoubleModelBinderProvider());
+    });
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IProductService, ProductService>();
