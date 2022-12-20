@@ -26,7 +26,7 @@ namespace Warehouse.Core.Services
             this.productRepo = productRepo;
         }
 
-        public async Task<ProductsSearchViewModel> AllAsync(string productId, string category, string searchString)
+        public async Task<ProductsSearchViewModel> AllAsync(string productId, string category, string searchString, int pageNo, int pageSize)
         {
             var products = await productRepo
                 .All()
@@ -40,7 +40,8 @@ namespace Warehouse.Core.Services
                     SellingPrice = p.SellingPrice,
                     Description = p.Description,
                     Quantity = p.Quantity
-                }).ToListAsync();
+                })
+                .ToListAsync();
 
             if (!String.IsNullOrEmpty(productId))
             {
@@ -64,9 +65,15 @@ namespace Warehouse.Core.Services
             ProductsSearchViewModel productsSearchViewModel = new ProductsSearchViewModel()
             {
                 SearchString = searchString,
-                Products = products,
+                Products = products
+                .Skip(pageNo * pageSize - pageSize)
+                .Take(pageSize)
+                .ToList(),
                 ProductCategory = category,
                 ProductId = productId,
+                PageNo = pageNo,
+                PageSize = pageSize,
+                TotalRecords = products.Count
             };
 
             return productsSearchViewModel;

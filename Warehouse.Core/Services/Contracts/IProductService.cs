@@ -9,7 +9,7 @@ namespace Warehouse.Core.Services.Contracts
 {
     public interface IProductService
     {
-        Task<ProductsSearchViewModel> AllAsync(string productId, string category, string searchString);
+        Task<ProductsSearchViewModel> AllAsync(string productId, string category, string searchString, int pageNo, int pageSize);
         Task CreateAsync(CreateProductViewModel model, string userId);
 
         Task Delete(string id);

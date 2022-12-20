@@ -22,10 +22,9 @@ namespace Warehouse.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Index(string productId, string category, string searchString)
+        public async Task<IActionResult> Index(string productId, string category, string searchString, int p = 1, int s = 10)
         {
-
-            var productsViewModel = await productService.AllAsync(productId, category, searchString);
+            var productsViewModel = await productService.AllAsync(productId, category, searchString, p, s);
             return View(productsViewModel);
         }
 
