@@ -81,7 +81,14 @@
                                     <tr>
                                         <td>@product.Id</td>
                                         <td>@product.Name</td>
-                                        <td>@product.Description</td>
+                                        @if (String.IsNullOrEmpty(product.Description))
+                                        {
+                                            <td>No Description</td>
+                                        }
+                                        else
+                                        {
+                                                 <td>@product.Description</td>
+                                        }
                                         <td>@product.SellingPrice</td>
                                         <td>@product.PurchasePrice</td>
                                         @if (product.Image != null)
