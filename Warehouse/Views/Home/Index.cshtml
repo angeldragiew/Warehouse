@@ -86,7 +86,7 @@
                                         <td>@product.PurchasePrice</td>
                                         @if (product.Image != null)
                                         {
-                                            <td><img class="product-img" src="~/uploads/@product.Image"></td>
+                                            <td class="product-img-cell"><img class="product-img" src="~/uploads/@product.Image"></td>
                                         }
                                         else
                                         {
@@ -108,9 +108,9 @@
                             }
                             else
                             {
-                                 <tr>
-                                     <td style="text-align: center;" colspan="9">No products found!</td>
-                                 </tr>
+                                <tr>
+                                    <td style="text-align: center;" colspan="9">No products found!</td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -123,9 +123,24 @@
     <paging page-no="Model.PageNo"
             page-size="Model.PageSize"
             total-records="Model.TotalRecords"
-            page-size-dropdown-items="5-10-15"></paging> 
+            page-size-dropdown-items="5-10-15">
+    </paging>
+</div>
+
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <img id="modal-img" src="" alt="img"/>
+    </div>
+
 </div>
 
 @section Head{
     <link rel="stylesheet" href="~/css/productViews.css" type="text/css" asp-append-version="true" />
-	}
+    <link rel="stylesheet" href="~/css/modal.css" type="text/css" asp-append-version="true" />
+}
+
+@section Scripts{
+    <script src="~/js//modal.js"></script>
+}

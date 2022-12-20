@@ -1,10 +1,16 @@
 ﻿.product-img
 {
-    width:50px;
+    width:100%;
+    object-fit:cover;
 }
-.table{
-    text-align:center;
+
+.product-img-cell{
+    width:200px;
 }
+.table {
+    text-align: center;
+}
+
 .description-field {
     width: 30% !important;
     background-color: red;
